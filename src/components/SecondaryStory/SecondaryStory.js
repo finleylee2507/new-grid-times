@@ -1,26 +1,33 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
+import { QUERIES } from "../../constants";
 
 const SecondaryStory = ({ id, title, image, location, abstract }) => {
   return (
-    <a href={`/story/${id}`}>
-      <Wrapper>
-        <Image alt={image.alt} src={image.src} />
-        <Heading>{title}</Heading>
+    <Wrapper>
+      <Image alt={image.alt} src={image.src} />
+      <Heading>{title}</Heading>
+      <AbstractWrapper>
         <Abstract>{abstract}</Abstract>
-      </Wrapper>
-    </a>
+      </AbstractWrapper>
+    </Wrapper>
   );
 };
 
 const Wrapper = styled.article`
   display: grid;
   grid-template-areas:
-    'image heading'
-    'image abstract';
+    "image heading"
+    "image abstract";
   gap: 4px 16px;
   grid-template-columns: 120px 1fr;
   color: var(--color-gray-900);
+
+  @media screen and ${QUERIES.tabletOnly} {
+    grid-template-areas: "image" "heading" "abstract";
+    grid-template-columns: revert;
+    row-gap: 4px;
+  }
 `;
 
 const Image = styled.img`
@@ -30,6 +37,9 @@ const Image = styled.img`
   height: 120px;
   border-radius: 4px;
   object-fit: cover;
+
+  // @media screen and ${QUERIES.tabletOnly} {
+  // }
 `;
 
 const Heading = styled.h2`
@@ -41,10 +51,19 @@ const Heading = styled.h2`
   margin-top: -2px;
 `;
 
-const Abstract = styled.p`
+const AbstractWrapper = styled.div`
   grid-area: abstract;
+`;
+
+const Abstract = styled.p`
   font-size: 1rem;
   white-space: pre-wrap;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+
+  overflow: hidden;
 `;
 
 export default SecondaryStory;
